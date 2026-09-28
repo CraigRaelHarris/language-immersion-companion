@@ -14,17 +14,15 @@ void main() {
           status: 'healthy',
           service: 'LanguageImmersionCompanion.Api',
         ),
+        createConversation: () async => emptyConversation,
       ),
     );
     await tester.pumpAndSettle();
 
     expect(find.text('English → isiZulu'), findsOneWidget);
+    expect(find.text('Thandi and Sipho are ready to chat.'), findsOneWidget);
     expect(
-      find.text('A shared conversation with two AI friends.'),
-      findsOneWidget,
-    );
-    expect(
-      find.text('Connected to LanguageImmersionCompanion.Api'),
+      find.byTooltip('Connected to LanguageImmersionCompanion.Api'),
       findsOneWidget,
     );
   });
@@ -58,7 +56,10 @@ void main() {
     }
 
     await tester.pumpWidget(
-      LanguageImmersionCompanionApp(checkHealth: checkHealth),
+      LanguageImmersionCompanionApp(
+        checkHealth: checkHealth,
+        createConversation: () async => emptyConversation,
+      ),
     );
     await tester.pumpAndSettle();
     expect(find.text('The API is unavailable.'), findsOneWidget);
@@ -67,9 +68,20 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(attempt, 2);
-    expect(
-      find.text('Connected to LanguageImmersionCompanion.Api'),
-      findsOneWidget,
-    );
+    expect(find.text('Thandi and Sipho are ready to chat.'), findsOneWidget);
   });
 }
+
+const emptyConversation = ConversationSnapshot(
+  id: 'conversation-1',
+  participants: [
+    ConversationParticipant(id: 'learner', displayName: 'You', role: 'learner'),
+    ConversationParticipant(
+      id: 'thandi',
+      displayName: 'Thandi',
+      role: 'friend',
+    ),
+    ConversationParticipant(id: 'sipho', displayName: 'Sipho', role: 'friend'),
+  ],
+  turns: [],
+);

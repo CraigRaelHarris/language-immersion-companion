@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import '../../core/network/api_client.dart';
 
 typedef HealthCheck = Future<HealthStatus> Function();
+typedef ConnectedBuilder = Widget Function(HealthStatus health);
 
 class HealthScreen extends StatefulWidget {
-  const HealthScreen({required this.checkHealth, super.key});
+  const HealthScreen({
+    required this.checkHealth,
+    required this.connectedBuilder,
+    super.key,
+  });
 
   final HealthCheck checkHealth;
+  final ConnectedBuilder connectedBuilder;
 
   @override
   State<HealthScreen> createState() => _HealthScreenState();
@@ -30,6 +36,23 @@ class _HealthScreenState extends State<HealthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<HealthStatus>(
+      future: _health,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            !snapshot.hasError) {
+          return widget.connectedBuilder(snapshot.requireData);
+        }
+
+        return _buildStatusCard(context, snapshot);
+      },
+    );
+  }
+
+  Widget _buildStatusCard(
+    BuildContext context,
+    AsyncSnapshot<HealthStatus> snapshot,
+  ) {
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -65,21 +88,10 @@ class _HealthScreenState extends State<HealthScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 28),
-                      FutureBuilder<HealthStatus>(
-                        future: _health,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState !=
-                              ConnectionState.done) {
-                            return const _LoadingStatus();
-                          }
-
-                          if (snapshot.hasError) {
-                            return _ErrorStatus(onRetry: _retry);
-                          }
-
-                          return _ConnectedStatus(health: snapshot.requireData);
-                        },
-                      ),
+                      if (snapshot.connectionState != ConnectionState.done)
+                        const _LoadingStatus()
+                      else
+                        _ErrorStatus(onRetry: _retry),
                     ],
                   ),
                 ),
@@ -103,36 +115,6 @@ class _LoadingStatus extends StatelessWidget {
         SizedBox(height: 12),
         Text('Connecting to the API…'),
       ],
-    );
-  }
-}
-
-class _ConnectedStatus extends StatelessWidget {
-  const _ConnectedStatus({required this.health});
-
-  final HealthStatus health;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-
-    return Semantics(
-      liveRegion: true,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-        decoration: BoxDecoration(
-          color: colors.primaryContainer,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.check_circle, color: colors.primary),
-            const SizedBox(width: 10),
-            Flexible(child: Text('Connected to ${health.service}')),
-          ],
-        ),
-      ),
     );
   }
 }

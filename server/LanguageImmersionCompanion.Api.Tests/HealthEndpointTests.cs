@@ -42,7 +42,7 @@ public sealed class HealthEndpointTests : IClassFixture<WebApplicationFactory<Pr
     }
 
     [Fact]
-    public async Task OpenApiDocumentDescribesHealthEndpoint()
+    public async Task OpenApiDocumentDescribesCurrentEndpoints()
     {
         var response = await _client.GetAsync("/openapi/v1.json");
         using var document = await JsonDocument.ParseAsync(
@@ -56,6 +56,13 @@ public sealed class HealthEndpointTests : IClassFixture<WebApplicationFactory<Pr
         Assert.Equal(
             "Check API health",
             healthPath.GetProperty("get").GetProperty("summary").GetString());
+        Assert.True(
+            document.RootElement
+                .GetProperty("paths")
+                .TryGetProperty("/api/conversations", out var conversationsPath));
+        Assert.Equal(
+            "Start a text conversation",
+            conversationsPath.GetProperty("post").GetProperty("summary").GetString());
     }
 
     [Fact]

@@ -11,7 +11,7 @@ An MVP conversational language-learning app built with Flutter and ASP.NET Core.
 - The friends speak isiZulu by default, using limited English scaffolding for absolute beginners or when the learner is struggling.
 - LLM and speech-provider credentials stay on the backend and are never compiled into Flutter.
 
-Milestone 0 proves the Flutter web-to-API development path. It does not yet include onboarding, conversation persistence, AI, or audio.
+The current text-conversation slice uses deterministic isiZulu responses and in-memory storage. It does not yet include onboarding, durable persistence, generative AI, or audio. Conversations reset whenever the API restarts.
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@ cd .\client
 flutter run -d chrome --dart-define=API_BASE_URL=http://localhost:5291
 ```
 
-The app should display `Connected to LanguageImmersionCompanion.Api`.
+The app should open a conversation with Thandi and Sipho. Enter `Sawubona` and select the send button. Thandi replies first, then Sipho replies to the next message.
 
 ## Use the API in Postman
 
@@ -64,7 +64,7 @@ To generate all current requests automatically in Postman:
 3. Confirm **Import**. Postman creates a collection from every documented API operation.
 4. Import `postman/Local.postman_environment.json` as an environment and select **Language Immersion Companion - Local**.
 
-The collection currently contains `GET /api/health`. Re-import the OpenAPI URL after new backend endpoints are added. During import, Postman can either create a new collection or merge changes into the collection previously generated from the same specification.
+The collection contains health, conversation creation, conversation retrieval, and turn submission operations. Re-import the OpenAPI URL after new backend endpoints are added. During import, Postman can either create a new collection or merge changes into the collection previously generated from the same specification.
 
 The OpenAPI endpoint is intentionally available only while the API runs in the `Development` environment. Do not add API keys or other secrets to the checked-in Postman environment file.
 

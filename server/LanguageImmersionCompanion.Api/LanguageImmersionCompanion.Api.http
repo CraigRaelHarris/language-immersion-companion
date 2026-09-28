@@ -4,3 +4,23 @@ GET {{LanguageImmersionCompanion.Api_HostAddress}}/api/health
 Accept: application/json
 
 ###
+
+POST {{LanguageImmersionCompanion.Api_HostAddress}}/api/conversations
+Content-Type: application/json
+
+{
+  "learnerName": "You"
+}
+
+###
+
+@conversationId = replace-with-created-conversation-id
+
+POST {{LanguageImmersionCompanion.Api_HostAddress}}/api/conversations/{{conversationId}}/turns
+Content-Type: application/json
+
+{
+  "text": "Sawubona"
+}
+
+###

@@ -1,8 +1,12 @@
+using LanguageImmersionCompanion.Api.Features.Conversations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 const string developmentCorsPolicy = "DevelopmentClient";
 
 builder.Services.AddOpenApi();
+builder.Services.AddSingleton<DeterministicFriendResponseGenerator>();
+builder.Services.AddSingleton<InMemoryConversationStore>();
 
 builder.Services.AddCors(options =>
 {
@@ -39,6 +43,8 @@ app.MapGet("/api/health", () => Results.Ok(new HealthResponse("healthy", "Langua
     .WithSummary("Check API health")
     .WithDescription("Confirms that the Language Immersion Companion API is running and reachable.")
     .Produces<HealthResponse>(StatusCodes.Status200OK);
+
+app.MapConversationEndpoints();
 
 app.Run();
 
