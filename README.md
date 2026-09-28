@@ -41,6 +41,33 @@ flutter run -d chrome --dart-define=API_BASE_URL=http://localhost:5291
 
 The app should display `Connected to ForeignFriend.Api`.
 
+## Use the API in Postman
+
+Start the API:
+
+```powershell
+dotnet run --project .\server\ForeignFriend.Api
+```
+
+The development OpenAPI document is then available at:
+
+```text
+http://localhost:5291/openapi/v1.json
+```
+
+Opening `http://localhost:5291/` in a browser redirects to this document in development.
+
+To generate all current requests automatically in Postman:
+
+1. Select **Import** in Postman.
+2. Paste `http://localhost:5291/openapi/v1.json` into the import dialog.
+3. Confirm **Import**. Postman creates a collection from every documented API operation.
+4. Import `postman/Local.postman_environment.json` as an environment and select **Language Immersion Companion - Local**.
+
+The collection currently contains `GET /api/health`. Re-import the OpenAPI URL after new backend endpoints are added. During import, Postman can either create a new collection or merge changes into the collection previously generated from the same specification.
+
+The OpenAPI endpoint is intentionally available only while the API runs in the `Development` environment. Do not add API keys or other secrets to the checked-in Postman environment file.
+
 ## Verify
 
 ```powershell

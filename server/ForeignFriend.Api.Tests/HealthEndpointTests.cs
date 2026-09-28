@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace ForeignFriend.Api.Tests;
@@ -38,5 +39,31 @@ public sealed class HealthEndpointTests : IClassFixture<WebApplicationFactory<Pr
         Assert.Equal(
             "http://localhost:54321",
             response.Headers.GetValues("Access-Control-Allow-Origin").Single());
+    }
+
+    [Fact]
+    public async Task OpenApiDocumentDescribesHealthEndpoint()
+    {
+        var response = await _client.GetAsync("/openapi/v1.json");
+        using var document = await JsonDocument.ParseAsync(
+            await response.Content.ReadAsStreamAsync());
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.True(
+            document.RootElement
+                .GetProperty("paths")
+                .TryGetProperty("/api/health", out var healthPath));
+        Assert.Equal(
+            "Check API health",
+            healthPath.GetProperty("get").GetProperty("summary").GetString());
+    }
+
+    [Fact]
+    public async Task DevelopmentRootRedirectsToOpenApiDocument()
+    {
+        var response = await _client.GetAsync("/");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("/openapi/v1.json", response.RequestMessage?.RequestUri?.AbsolutePath);
     }
 }
