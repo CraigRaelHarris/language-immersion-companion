@@ -1,0 +1,6 @@
+@ForeignFriend.Api_HostAddress = http://localhost:5291
+
+GET {{ForeignFriend.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

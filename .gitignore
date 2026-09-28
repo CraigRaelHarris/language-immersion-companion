@@ -1,0 +1,28 @@
+# Editors and operating systems
+.idea/
+*.iml
+.DS_Store
+
+# Dart and Flutter
+client/.dart_tool/
+client/.flutter-plugins-dependencies
+client/build/
+client/coverage/
+
+# .NET
+**/bin/
+**/obj/
+TestResults/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+secrets.json
+
+# Logs and databases
+*.log
+*.db
+*.db-shm
+*.db-wal
