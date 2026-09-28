@@ -1,4 +1,4 @@
-# Foreign Friend
+# Language Immersion Companion
 
 An MVP conversational language-learning app built with Flutter and ASP.NET Core.
 
@@ -29,7 +29,7 @@ Open two terminals from the repository root.
 Start the API:
 
 ```powershell
-dotnet run --project .\server\ForeignFriend.Api
+dotnet run --project .\server\LanguageImmersionCompanion.Api
 ```
 
 Start Flutter in Chrome:
@@ -39,14 +39,14 @@ cd .\client
 flutter run -d chrome --dart-define=API_BASE_URL=http://localhost:5291
 ```
 
-The app should display `Connected to ForeignFriend.Api`.
+The app should display `Connected to LanguageImmersionCompanion.Api`.
 
 ## Use the API in Postman
 
 Start the API:
 
 ```powershell
-dotnet run --project .\server\ForeignFriend.Api
+dotnet run --project .\server\LanguageImmersionCompanion.Api
 ```
 
 The development OpenAPI document is then available at:

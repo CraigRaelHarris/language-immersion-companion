@@ -4,8 +4,8 @@ import '../core/config/app_config.dart';
 import '../core/network/api_client.dart';
 import '../features/health/health_screen.dart';
 
-class ForeignFriendApp extends StatelessWidget {
-  const ForeignFriendApp({super.key, this.checkHealth});
+class LanguageImmersionCompanionApp extends StatelessWidget {
+  const LanguageImmersionCompanionApp({super.key, this.checkHealth});
 
   final HealthCheck? checkHealth;
 
@@ -15,7 +15,7 @@ class ForeignFriendApp extends StatelessWidget {
         checkHealth ?? ApiClient(baseUrl: AppConfig.apiBaseUrl).getHealth;
 
     return MaterialApp(
-      title: 'Foreign Friend',
+      title: 'Language Immersion Companion',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

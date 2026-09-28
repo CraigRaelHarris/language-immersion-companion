@@ -33,11 +33,11 @@ if (app.Environment.IsDevelopment())
         .ExcludeFromDescription();
 }
 
-app.MapGet("/api/health", () => Results.Ok(new HealthResponse("healthy", "ForeignFriend.Api")))
+app.MapGet("/api/health", () => Results.Ok(new HealthResponse("healthy", "LanguageImmersionCompanion.Api")))
     .WithName("GetHealth")
     .WithTags("System")
     .WithSummary("Check API health")
-    .WithDescription("Confirms that the Foreign Friend API is running and reachable.")
+    .WithDescription("Confirms that the Language Immersion Companion API is running and reachable.")
     .Produces<HealthResponse>(StatusCodes.Status200OK);
 
 app.Run();

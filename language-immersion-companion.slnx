@@ -1,6 +1,6 @@
 <Solution>
   <Folder Name="/server/">
-    <Project Path="server/ForeignFriend.Api.Tests/ForeignFriend.Api.Tests.csproj" />
-    <Project Path="server/ForeignFriend.Api/ForeignFriend.Api.csproj" />
+    <Project Path="server/LanguageImmersionCompanion.Api.Tests/LanguageImmersionCompanion.Api.Tests.csproj" />
+    <Project Path="server/LanguageImmersionCompanion.Api/LanguageImmersionCompanion.Api.csproj" />
   </Folder>
 </Solution>

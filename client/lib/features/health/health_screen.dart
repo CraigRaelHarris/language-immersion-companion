@@ -51,7 +51,7 @@ class _HealthScreenState extends State<HealthScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Foreign Friend',
+                        'Language Immersion Companion',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 8),

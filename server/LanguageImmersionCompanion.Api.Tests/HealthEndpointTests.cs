@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace ForeignFriend.Api.Tests;
+namespace LanguageImmersionCompanion.Api.Tests;
 
 public sealed class HealthEndpointTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -23,7 +23,7 @@ public sealed class HealthEndpointTests : IClassFixture<WebApplicationFactory<Pr
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.NotNull(health);
         Assert.Equal("healthy", health.Status);
-        Assert.Equal("ForeignFriend.Api", health.Service);
+        Assert.Equal("LanguageImmersionCompanion.Api", health.Service);
     }
 
     [Fact]

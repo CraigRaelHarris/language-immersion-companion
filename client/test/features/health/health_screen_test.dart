@@ -1,17 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:foreign_friend/app/app.dart';
-import 'package:foreign_friend/core/network/api_client.dart';
+import 'package:language_immersion_companion/app/app.dart';
+import 'package:language_immersion_companion/core/network/api_client.dart';
 
 void main() {
   testWidgets('shows the agreed product direction and connected API', (
     tester,
   ) async {
     await tester.pumpWidget(
-      ForeignFriendApp(
-        checkHealth: () async =>
-            const HealthStatus(status: 'healthy', service: 'ForeignFriend.Api'),
+      LanguageImmersionCompanionApp(
+        checkHealth: () async => const HealthStatus(
+          status: 'healthy',
+          service: 'LanguageImmersionCompanion.Api',
+        ),
       ),
     );
     await tester.pumpAndSettle();
@@ -21,7 +23,10 @@ void main() {
       find.text('A shared conversation with two AI friends.'),
       findsOneWidget,
     );
-    expect(find.text('Connected to ForeignFriend.Api'), findsOneWidget);
+    expect(
+      find.text('Connected to LanguageImmersionCompanion.Api'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('shows loading while the health request is pending', (
@@ -30,12 +35,12 @@ void main() {
     final pendingHealth = Completer<HealthStatus>();
 
     await tester.pumpWidget(
-      ForeignFriendApp(checkHealth: () => pendingHealth.future),
+      LanguageImmersionCompanionApp(checkHealth: () => pendingHealth.future),
     );
     await tester.pump();
 
     expect(find.text('Connecting to the API…'), findsOneWidget);
-    expect(find.byType(ForeignFriendApp), findsOneWidget);
+    expect(find.byType(LanguageImmersionCompanionApp), findsOneWidget);
   });
 
   testWidgets('retries after the API is unavailable', (tester) async {
@@ -48,11 +53,13 @@ void main() {
       }
       return const HealthStatus(
         status: 'healthy',
-        service: 'ForeignFriend.Api',
+        service: 'LanguageImmersionCompanion.Api',
       );
     }
 
-    await tester.pumpWidget(ForeignFriendApp(checkHealth: checkHealth));
+    await tester.pumpWidget(
+      LanguageImmersionCompanionApp(checkHealth: checkHealth),
+    );
     await tester.pumpAndSettle();
     expect(find.text('The API is unavailable.'), findsOneWidget);
 
@@ -60,6 +67,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(attempt, 2);
-    expect(find.text('Connected to ForeignFriend.Api'), findsOneWidget);
+    expect(
+      find.text('Connected to LanguageImmersionCompanion.Api'),
+      findsOneWidget,
+    );
   });
 }
